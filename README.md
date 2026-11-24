@@ -1,6 +1,12 @@
 # 汽车产业研究台（DSH 插件）
 
 仓库：<https://github.com/pn1024/dsh-automotive>
+npm：<https://www.npmjs.com/package/dsh-plugin-automotive>
+
+```bash
+# 从 npm 安装（DSH 插件管理器 install_bundle，target 填包名）
+pnpm add dsh-plugin-automotive
+```
 
 把「政策原文 + 月度销量 + 上市公司财报 + 行情」做成一个可下钻、可出报告、能对外的汽车产业研究工作台。
 

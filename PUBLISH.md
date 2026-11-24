@@ -4,8 +4,11 @@ DSH 插件的上架链路是：**先发布到 npm → 再向 `awesome-dsh-plugin
 市场（`dshmarket`）每次打开会实时读取 [awesome-dsh-plugin.com/plugins.json](https://awesome-dsh-plugin.com/plugins.json)，
 条目合并后通常一天内生效。不需要向 dshmarket 仓库本身提 PR。
 
-> 当前状态：包已打好（`dsh-plugin-automotive-1.0.0.tgz`，0.42 MB），
-> 本机 **npm 未登录、GitHub token 已过期**，所以最后两步（发 npm、提 PR）需要你先授权。
+> 当前状态：**已于 2026-11-24 发布到 npm** —— `dsh-plugin-automotive@1.0.0`（42 个文件，解开 2.0 MB）。
+> 仓库已上线 <https://github.com/pn1024/dsh-automotive>。
+> 剩余最后一步：向 `awesome-dsh-plugin` 提 PR（见下）。
+>
+> 注意：npm 禁止绕过 2FA 的 granular token 执行 unpublish，因此首个占位版本 `0.0.0-stage` 会保留在版本列表里，不影响安装。
 
 ## 0. 打包（已完成，可重复执行）
 
