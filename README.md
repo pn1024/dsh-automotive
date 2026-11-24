@@ -154,6 +154,7 @@ auto-policy-plugin/
 - 本地打包：`cd auto-policy-plugin && pnpm pack` → `dsh-plugin-automotive-1.0.0.tgz`（约 0.42 MB）
 - 上架 DSH 插件市场：先 `pnpm publish --access public`，再向 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 提 PR
 - 完整步骤、PR 条目模板与发布前自检清单见 [PUBLISH.md](PUBLISH.md)
+- 插件市场提交文件与 PR 描述模板见 [docs/awesome-submission.md](docs/awesome-submission.md)
 
 ## 许可证
 
