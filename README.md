@@ -1,4 +1,4 @@
-# 汽车政策研究台（DSH 插件）
+# 汽车产业研究台（DSH 插件）
 
 把「政策原文 + 月度销量 + 上市公司财报 + 行情」做成一个可下钻、可出报告、能对外的汽车产业研究工作台。
 
@@ -149,7 +149,7 @@ auto-policy-plugin/
 
 ## 分发与上架
 
-- 本地打包：`cd auto-policy-plugin && pnpm pack` → `dsh-plugin-auto-policy-1.0.0.tgz`（约 0.42 MB）
+- 本地打包：`cd auto-policy-plugin && pnpm pack` → `dsh-plugin-automotive-1.0.0.tgz`（约 0.42 MB）
 - 上架 DSH 插件市场：先 `pnpm publish --access public`，再向 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 提 PR
 - 完整步骤、PR 条目模板与发布前自检清单见 [PUBLISH.md](PUBLISH.md)
 

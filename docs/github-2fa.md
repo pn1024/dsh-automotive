@@ -61,7 +61,7 @@ node tools/totp.mjs --check
 
 | 方式 | 说明 |
 |---|---|
-| 直接发 tarball | `dsh-plugin-auto-policy-1.0.0.tgz`，对方在 DSH 插件管理器里安装本地包即可，不需要 npm 与 GitHub |
+| 直接发 tarball | `dsh-plugin-automotive-1.0.0.tgz`，对方在 DSH 插件管理器里安装本地包即可，不需要 npm 与 GitHub |
 | 内网 npm 私服 | 用 Verdaccio 在局域网起一个 registry，`pnpm publish --registry http://<内网IP>:4873`，团队内可 `install` |
 | 国内代码托管 | Gitee / GitCode 支持手机号或微信登录，可作为代码备份；但 DSH 市场只认 npm + GitHub，不能替代上架 |
 
