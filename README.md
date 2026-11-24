@@ -147,6 +147,12 @@ auto-policy-plugin/
 | 财报 | A 股营业总收入/归母净利；港股营业额/股东应占溢利；各自本币 | 不做汇率折算 |
 | PSI | 研究先验权重 | 不是绝对政策力度 |
 
+## 分发与上架
+
+- 本地打包：`cd auto-policy-plugin && pnpm pack` → `dsh-plugin-auto-policy-1.0.0.tgz`（约 0.42 MB）
+- 上架 DSH 插件市场：先 `pnpm publish --access public`，再向 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 提 PR
+- 完整步骤、PR 条目模板与发布前自检清单见 [PUBLISH.md](PUBLISH.md)
+
 ## 许可证
 
 代码 MIT。数据来自公开政府网站与公开行情接口，版权归原发布方，仅作研究参考，不构成投资建议。
