@@ -7,14 +7,14 @@
 在他们的仓库新增**一个文件**（不要改 README，README 是脚本生成的）：
 
 ```
-data/plugins/pn1024__dsh-automotive.yml
+data/plugins/pn1024__dsh-automotive--auto-policy-plugin.yml
 ```
 
 文件内容（可直接复制）：
 
 ```yaml
-url: https://github.com/pn1024/dsh-automotive
-name: pn1024/dsh-automotive
+url: https://github.com/pn1024/dsh-automotive/tree/main/auto-policy-plugin
+name: pn1024/dsh-automotive#auto-policy-plugin
 category: tools
 description:
   en: China automotive industry research console - 78 official policy documents with clause-level source anchors, national NEV penetration and brand shares, Chery official monthly exports, quarterly financials and analyst consensus for 10 listed automakers, plus policy-to-earnings quarterly comparison and GB/T 9704 formatted Word reports. Nothing is shown without a verifiable source.
@@ -23,6 +23,10 @@ description:
 
 `category` 取值来自官方列表：`agi ui usage theme model identity session memory tools wsl browser vision voice docs skill workflow git notify dev security remote market fun`。
 本插件暴露 6 个模型工具（检索/阅读/分析/出报告/库概览/行情），因此选 `tools`。
+
+**为什么用子目录（monorepo 子包）形式：** 本仓库是可运行的完整工作区（含 `docs/`、`reports/`、`tools/`），
+插件包在 `auto-policy-plugin/` 子目录里，仓库根目录没有 `package.json`。
+官方对这种情况有明确支持：`url` 指向子目录、`name` 用 `owner/repo#subname`、文件名用 `owner__repo--<path>.yml`。
 
 ## 二、PR 前必须满足的门槛
 
