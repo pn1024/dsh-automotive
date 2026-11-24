@@ -85,6 +85,39 @@ pnpm publish --access public --no-git-checks
 
 市场会对比 npm 版本，检测到新版本后提示用户更新。
 
+## 常见报错
+
+### 403 Forbidden - PUT https://registry.npmjs.org/<包名>
+
+含义：当前 token 能读、但没有**发布**权限。判定方法：
+
+`powershell
+# 能返回用户名 → token 有效
+Invoke-WebRequest https://registry.npmjs.org/-/whoami -Headers @{Authorization="Bearer <token>"}
+# 返回 403 → token 是只读的，不能发布
+Invoke-WebRequest https://registry.npmjs.org/-/npm/v1/user -Headers @{Authorization="Bearer <token>"}
+`
+
+解决：重新生成一个有写权限的 token。
+
+- npmjs.com → 右上头像 → **Access Tokens** → Generate New Token
+- 选 **Classic Token → Automation**（可绕过 2FA，具备发布权限）；或
+- 选 **Granular Access Token**：Packages 权限设为 **Read and write**，勾选 Bypass 2FA
+
+然后写入本机配置：
+
+`powershell
+npm config set //registry.npmjs.org/:_authToken=<新token>
+`
+
+### 镜像源不能发布
+
+本机默认 registry 若是 https://registry.npmmirror.com/（淘宝镜像，只读），发布必须显式指定官方源：
+
+`powershell
+pnpm publish --access public --no-git-checks --registry https://registry.npmjs.org/
+`
+
 ## 5. 发布前自检清单
 
 - [ ] `node scripts/smoke.mjs 2026-09 100000 奇瑞` 通过
