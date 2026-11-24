@@ -51,7 +51,7 @@ pnpm publish --access public --no-git-checks
   "title": "汽车产业研究台",
   "description": "国内汽车政策库（78 条官方原文）、懂车帝销量、奇瑞官方公告、上市公司财报与一致预期；带条款级原文定位、政策-财报季度对照、Markdown 与公文格式 Word 报告。没有可核验来源的数据不展示。",
   "author": "pn1024",
-  "repo": "https://github.com/<你的账号>/dsh-automotive",
+  "repo": "https://github.com/pn1024/dsh-automotive",
   "npm": "dsh-plugin-automotive",
   "tags": ["汽车", "政策", "研究", "数据", "报告", "dashboard"],
   "screenshots": []
