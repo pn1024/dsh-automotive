@@ -19,5 +19,6 @@ auto-policy-plugin/data/reports/
 .DS_Store
 Thumbs.db
 desktop.ini
-# npm ´ò°ü²úÎï
+# npm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 *.tgz
+.tmp-submit/
