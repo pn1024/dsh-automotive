@@ -1,0 +1,72 @@
+{
+  "updatedAt": "2026-11-24T06:40:49.386Z",
+  "note": "由 lib/linkage.js 计算，供 Word 报告读取",
+  "rows": [
+    {
+      "quarter": "2026Q3",
+      "policyCount": 4,
+      "psi": 15.8,
+      "avgGrossMargin": 17.1,
+      "avgRevenueGrowth": -6.6,
+      "sampleCompanies": {
+        "margin": 5,
+        "growth": 5
+      }
+    },
+    {
+      "quarter": "2026Q2",
+      "policyCount": 3,
+      "psi": 16.3,
+      "avgGrossMargin": 17.3,
+      "avgRevenueGrowth": -2.9,
+      "sampleCompanies": {
+        "margin": 5,
+        "growth": 5
+      }
+    },
+    {
+      "quarter": "2026Q1",
+      "policyCount": 0,
+      "psi": 0,
+      "avgGrossMargin": 18.1,
+      "avgRevenueGrowth": 6.2,
+      "sampleCompanies": {
+        "margin": 5,
+        "growth": 5
+      }
+    },
+    {
+      "quarter": "2025Q4",
+      "policyCount": 7,
+      "psi": 38,
+      "avgGrossMargin": 18.1,
+      "avgRevenueGrowth": 6.9,
+      "sampleCompanies": {
+        "margin": 5,
+        "growth": 5
+      }
+    },
+    {
+      "quarter": "2025Q3",
+      "policyCount": 4,
+      "psi": 13.7,
+      "avgGrossMargin": 17.8,
+      "avgRevenueGrowth": null,
+      "sampleCompanies": {
+        "margin": 5,
+        "growth": 0
+      }
+    },
+    {
+      "quarter": "2025Q2",
+      "policyCount": 4,
+      "psi": 20.8,
+      "avgGrossMargin": 17.6,
+      "avgRevenueGrowth": null,
+      "sampleCompanies": {
+        "margin": 5,
+        "growth": 0
+      }
+    }
+  ]
+}

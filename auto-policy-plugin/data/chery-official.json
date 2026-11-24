@@ -1,0 +1,281 @@
+{
+  "source": "奇瑞控股官网新闻中心",
+  "endpoint": "https://www.cheryholding.com/api/article/paginate",
+  "updatedAt": "2026-11-23T10:25:31.099Z",
+  "note": "集团销量含出口；出口为公告口径。与懂车帝国内上险口径不可直接相加或对比。部分月份公告未抓到，序列不完整。",
+  "months": [
+    {
+      "month": "2021-04",
+      "groupSales": 282000,
+      "listedSales": null,
+      "export": null,
+      "nev": null,
+      "brands": null,
+      "title": "奇瑞集团4月销量“继续开挂”劲增91.6% 出口2.2万辆再创今年新高",
+      "sourceUrl": "https://www.cheryholding.com/article/849.html",
+      "publishedAt": "2021-05-06 15:07:13"
+    },
+    {
+      "month": "2021-08",
+      "groupSales": 67182,
+      "listedSales": null,
+      "export": 20491,
+      "nev": 55372,
+      "brands": null,
+      "title": "奇瑞集团1-8月销售汽车57.6万辆，同比增长61.6%",
+      "sourceUrl": "https://www.cheryholding.com/article/885.html",
+      "publishedAt": "2021-09-10 13:23:13"
+    },
+    {
+      "month": "2022-02",
+      "groupSales": 60419,
+      "listedSales": null,
+      "export": 19997,
+      "nev": 10702,
+      "brands": null,
+      "title": "奇瑞集团2月销售汽车6.04万辆，同比增长26.4%，1-2月销量14.7万辆，出口涨三成，新能源增长超2倍",
+      "sourceUrl": "https://www.cheryholding.com/article/915.html",
+      "publishedAt": "2022-03-10 09:45:13"
+    },
+    {
+      "month": "2022-03",
+      "groupSales": 81818,
+      "listedSales": null,
+      "export": 69907,
+      "nev": 53054,
+      "brands": null,
+      "title": "奇瑞集团3月销售汽车8.18万辆，同比增长2.2%，一季度销量22.9万辆，新能源增长超2倍，海外市场持续热销",
+      "sourceUrl": "https://www.cheryholding.com/article/919.html",
+      "publishedAt": "2022-04-11 10:35:11"
+    },
+    {
+      "month": "2023-02",
+      "groupSales": 103877,
+      "listedSales": null,
+      "export": null,
+      "nev": null,
+      "brands": null,
+      "title": "劲增71.9%，跑出“加速度”！奇瑞集团2月销量10.39万辆",
+      "sourceUrl": "https://www.cheryholding.com/article/962.html",
+      "publishedAt": "2023-03-06 10:15:03"
+    },
+    {
+      "month": "2023-03",
+      "groupSales": 124954,
+      "listedSales": null,
+      "export": null,
+      "nev": null,
+      "brands": null,
+      "title": "同比增长52.7%！奇瑞集团3月销售汽车12.5万辆，一季度累计销量创历史新高",
+      "sourceUrl": "https://www.cheryholding.com/article/967.html",
+      "publishedAt": "2023-04-06 09:46:27"
+    },
+    {
+      "month": "2023-04",
+      "groupSales": 126713,
+      "listedSales": null,
+      "export": null,
+      "nev": null,
+      "brands": null,
+      "title": "奇瑞集团4月销售汽车12.7万辆，同比增长128%",
+      "sourceUrl": "https://www.cheryholding.com/article/973.html",
+      "publishedAt": "2023-05-06 12:37:47"
+    },
+    {
+      "month": "2023-06",
+      "groupSales": 145235,
+      "listedSales": null,
+      "export": null,
+      "nev": null,
+      "brands": null,
+      "title": "刷新纪录！奇瑞集团上半年销量超74万辆，同比增长56%",
+      "sourceUrl": "https://www.cheryholding.com/article/982.html",
+      "publishedAt": "2023-07-05 09:34:16"
+    },
+    {
+      "month": "2023-11",
+      "groupSales": 212076,
+      "listedSales": null,
+      "export": null,
+      "nev": null,
+      "brands": null,
+      "title": "再创新高！奇瑞集团11月销量21.2万辆，同比增长111%",
+      "sourceUrl": "https://www.cheryholding.com/article/1001.html",
+      "publishedAt": "2023-12-02 11:14:34"
+    },
+    {
+      "month": "2024-04",
+      "groupSales": 182049,
+      "listedSales": null,
+      "export": 89377,
+      "nev": 32995,
+      "brands": null,
+      "title": "奇瑞集团4月销量18.2万辆，同比增长43.7%，1-4月份累计销量71.2万辆，新能源、出口继续提速",
+      "sourceUrl": "https://www.cheryholding.com/article/1026.html",
+      "publishedAt": "2024-05-02 17:12:46"
+    },
+    {
+      "month": "2024-05",
+      "groupSales": 188556,
+      "listedSales": null,
+      "export": 92481,
+      "nev": 42733,
+      "brands": null,
+      "title": "奇瑞集团5月销量18.9万辆，同比增长35.5 %，前五月累计突破90万辆",
+      "sourceUrl": "https://www.cheryholding.com/article/1033.html",
+      "publishedAt": "2024-06-03 09:52:56"
+    },
+    {
+      "month": "2024-06",
+      "groupSales": 200412,
+      "listedSales": null,
+      "export": 97034,
+      "nev": 44851,
+      "brands": null,
+      "title": "历史新高！奇瑞集团上半年销量突破110万辆，同比增长48.4%，新能源18.1万辆，出口53.2万辆",
+      "sourceUrl": "https://www.cheryholding.com/article/1038.html",
+      "publishedAt": "2024-07-02 10:00:00"
+    },
+    {
+      "month": "2024-10",
+      "groupSales": 272155,
+      "listedSales": null,
+      "export": 111922,
+      "nev": 7,
+      "brands": null,
+      "title": "创造新历史！奇瑞首次年内销量突破200万辆 1-10月同比增长39.3%，累计销量、单月销量、出口、新能源再创“历史新高”",
+      "sourceUrl": "https://www.cheryholding.com/article/1051.html",
+      "publishedAt": "2024-11-01 19:00:43"
+    },
+    {
+      "month": "2024-11",
+      "groupSales": 280463,
+      "listedSales": null,
+      "export": 104911,
+      "nev": 77830,
+      "brands": null,
+      "title": "再创纪录！奇瑞集团单月销量首次突破28万辆 1-11月累计销量230.5万辆，同比增长38.4%",
+      "sourceUrl": "https://www.cheryholding.com/article/1059.html",
+      "publishedAt": "2024-12-01 19:31:22"
+    },
+    {
+      "month": "2025-03",
+      "groupSales": 214770,
+      "listedSales": null,
+      "export": null,
+      "nev": 62210,
+      "brands": null,
+      "title": "同比增长171.8%！奇瑞集团一季度销售新能源汽车16.3万辆 “油电协同”持续夯实“新能源不客气”",
+      "sourceUrl": "https://www.cheryholding.com/article/1071.html",
+      "publishedAt": "2025-04-03 10:04:00"
+    },
+    {
+      "month": "2025-06",
+      "groupSales": 233607,
+      "listedSales": null,
+      "export": null,
+      "nev": 71582,
+      "brands": null,
+      "title": "奇瑞集团上半年销售汽车126万辆，创历史同期新高 出口55万辆保持中国品牌第一 新能源增长98.6%突破35万辆",
+      "sourceUrl": "https://www.cheryholding.com/article/1075.html",
+      "publishedAt": "2025-07-02 14:17:13"
+    },
+    {
+      "month": "2025-07",
+      "groupSales": 224439,
+      "listedSales": null,
+      "export": null,
+      "nev": 65357,
+      "brands": null,
+      "title": "“世界500强”增速全球车企第一、出口突破500万辆中国品牌第一 奇瑞集团7月销售汽车22.44万辆，同比增长14.7%",
+      "sourceUrl": "https://www.cheryholding.com/article/1076.html",
+      "publishedAt": "2025-08-01 16:40:31"
+    },
+    {
+      "month": "2025-08",
+      "groupSales": 242736,
+      "listedSales": null,
+      "export": null,
+      "nev": 71218,
+      "brands": null,
+      "title": "奇瑞集团8月销售汽车24.3万辆，其中出口12.95万辆，创单月出口新高！ 保持出口第一、获得J.D.Power质量评价三项自主第一",
+      "sourceUrl": "https://www.cheryholding.com/article/1077.html",
+      "publishedAt": "2025-09-01 23:50:15"
+    },
+    {
+      "month": "2025-09",
+      "groupSales": 280469,
+      "listedSales": 255584,
+      "export": null,
+      "nev": 91590,
+      "brands": null,
+      "title": "奇瑞集团前三季度销量超200万辆！同比增长14.5% 新能源与全球化成效显著 实现“五大历史突破”",
+      "sourceUrl": "https://www.cheryholding.com/article/1079.html",
+      "publishedAt": "2025-10-03 11:24:52"
+    },
+    {
+      "month": "2025-10",
+      "groupSales": 281161,
+      "listedSales": null,
+      "export": 126434,
+      "nev": 110346,
+      "brands": [
+        {
+          "brand": "奇瑞",
+          "sales": 169696
+        },
+        {
+          "brand": "星途",
+          "sales": 9494
+        },
+        {
+          "brand": "捷途",
+          "sales": 59073
+        },
+        {
+          "brand": "iCAR",
+          "sales": 12393
+        },
+        {
+          "brand": "智界",
+          "sales": 12810
+        }
+      ],
+      "title": "奇瑞集团10月销量28.1万辆 全球累计用户突破1800万 新能源规模增速双突破 年内出口最快速度突破百万辆",
+      "sourceUrl": "https://www.cheryholding.com/article/1080.html",
+      "publishedAt": "2025-11-02 11:37:22"
+    },
+    {
+      "month": "2025-11",
+      "groupSales": 272536,
+      "listedSales": 255809,
+      "export": 136728,
+      "nev": 116794,
+      "brands": [
+        {
+          "brand": "奇瑞",
+          "sales": 165511
+        },
+        {
+          "brand": "星途",
+          "sales": 12021
+        },
+        {
+          "brand": "捷途",
+          "sales": 55088
+        },
+        {
+          "brand": "iCAR",
+          "sales": 11428
+        },
+        {
+          "brand": "智界",
+          "sales": 11761
+        }
+      ],
+      "title": "新能源销量四连涨、出口连续7个月超10万辆奇瑞集团前11月销量256万辆，新能源突破80万辆，同比大增69.4%",
+      "sourceUrl": "https://www.cheryholding.com/article/1082.html",
+      "publishedAt": "2025-12-01 23:00:00"
+    }
+  ]
+}

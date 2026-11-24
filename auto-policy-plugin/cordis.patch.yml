@@ -1,0 +1,6 @@
+# 汽车政策研究台 bundle patch：注册 auto-policy 这一行，暴露 5 个模型工具。
+# 数据目录留空时使用包内 data/；也可设置环境变量 AUTO_POLICY_DATA_DIR 指向真实语料目录。
+- insert:
+    - id: auto-policy
+      name: 'dsh-plugin-auto-policy'
+      config: {}

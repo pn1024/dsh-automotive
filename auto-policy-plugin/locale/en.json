@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Auto policy desk",
+    "description": "A drill-down policy and automotive console in the left sidebar. Policy instruments link to the official policies behind them, brand shares link to model-level records, NEV share and PSI link to formulas and raw rows, and clauses link to their official text. Data without a real source is not shown, calculated or reported. The report uses an executive summary, sourced metrics, macro/meso/micro evidence, a brand section, capital markets and explicit research limits, with citation coverage and publication checks. Includes six tools plus policy and sales ingestion scripts. Policies come from the State Council policy library, sales from the public Dongchedi ranking, and quotes from Eastmoney. Provincial sales, exports and uncalibrated elasticities are omitted."
+  }
+}

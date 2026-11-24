@@ -1,0 +1,21 @@
+# 依赖
+node_modules/
+package-lock.json
+
+# 插件热重载临时目录
+.reload*/
+
+# 数据快照（体积大，按需生成）
+auto-policy-plugin/data/archive/
+
+# 临时脚本与中间产物
+.tmp/
+*.log
+
+# 自动生成的 Word 报告（保留 reports/ 下的示例）
+auto-policy-plugin/data/reports/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
