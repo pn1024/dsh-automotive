@@ -1,7 +1,7 @@
 {
   "name": "dsh-plugin-auto-policy",
   "version": "1.0.0",
-  "description": "汽车政策研究台：真实政策与销量、可下钻面板、条款原文定位和证据化月度报告",
+  "description": "汽车产业研究台：国内汽车政策库（官方原文）、销量与品牌份额、奇瑞官方公告、上市公司财报与一致预期，带条款级原文定位、政策-财报季度对照和公文格式研究报告",
   "private": false,
   "type": "module",
   "main": "index.js",
@@ -28,9 +28,13 @@
     "dsh",
     "dsh-plugin",
     "deepseek-harness",
+    "汽车",
+    "汽车产业",
+    "汽车政策",
+    "新能源汽车",
     "automotive",
+    "auto-industry",
     "policy",
-    "nev",
     "research",
     "dashboard"
   ],
@@ -47,7 +51,9 @@
     "backup": "node scripts/backup.mjs snapshot"
   },
   "dsh": {
-    "bundle": { "patch": "./cordis.patch.yml" },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "platform": "web",
       "immediately": true,

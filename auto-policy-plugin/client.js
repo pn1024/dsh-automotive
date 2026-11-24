@@ -9,7 +9,7 @@
  *       Host 半边用与报告相同的引擎现算，行情另走东方财富公开接口并带 10 分钟缓存。
  */
 window.__ModuleLoader__.load({
-  id: 'dsh-plugin-auto-policy',
+  id: 'dsh-plugin-auto-industry',
   factory(require) {
     const React = require('react')
     const h = React.createElement
@@ -800,7 +800,7 @@ a.ap-quote-link:hover { color: #22d3ee; border-bottom-color: #22d3ee; }
         title: '汽车政策研究台',
         'aria-label': '汽车政策研究台',
         onClick: () => window.dispatchEvent(new CustomEvent(TOGGLE_EVENT))
-      }, h(CarIcon, { size: 17 }), props.wide ? h('span', null, '汽车政策') : null)
+      }, h(CarIcon, { size: 17 }), props.wide ? h('span', null, '汽车产业') : null)
     }
 
     // ── 奇瑞专区 ──────────────────────────────────────────────────────
