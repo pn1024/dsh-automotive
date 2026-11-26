@@ -42,6 +42,8 @@ const EXCLUDE_TITLE = /道路机动车辆生产企业及产品|享受车船税�
 // 与汽车无关的领域：标题命中且汽车提及不足 10 次时丢弃，避免铁路、农业类规划混入
 const DROP_TITLE = /铁路|民航|船舶|水运|港口|农业|林业|水利|旅游|邮政/
 const DROP_TITLE_MIN_HITS = 10
+// 只收当前周期（十五五）的规划：检索会带回十四五等历史规划，标题不含关键词的一律跳过
+const ONLY_KEYWORD_IN_TITLE = true
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const strip = (value) =>
@@ -143,6 +145,7 @@ async function main() {
         if (!title || !url) continue
         if (EXCLUDE_TITLE.test(title)) continue
         if (SINCE && publishDate && publishDate < SINCE) continue
+        if (ONLY_KEYWORD_IN_TITLE && !title.includes(KEYWORD)) continue
         if (existing.has(url) || candidates.has(url)) continue
         candidates.set(url, { title, url, publishDate, issuer: strip(row.puborg ?? '国务院有关部门') })
       }
