@@ -48,16 +48,32 @@ const window = defaultWindow()
 const SINCE = option('since', window.since)
 const UNTIL = option('until', window.until)
 
-// 主题词：覆盖消费、投资、设备、交通、能源、制造等可能带汽车条款的方向
+// 主题词：覆盖消费、投资、设备、交通、能源、制造、补能、出口、金融等可能带汽车条款的方向
 const KEYWORDS = option(
   'keywords',
-  '消费,设备更新,以旧换新,交通运输,物流,制造业,能源,城市更新,科技创新,扩大内需,服务业,绿色低碳'
+  [
+    // 消费与投资
+    '消费', '设备更新', '以旧换新', '扩大内需', '服务业',
+    // 交通、物流、制造、能源
+    '交通运输', '物流', '制造业', '能源', '城市更新', '科技创新', '绿色低碳',
+    // 补能类
+    '加氢', '换电', '虚拟电厂', '储能',
+    // 出口类
+    '出口退税', '二手车出口', '跨境贸易',
+    // 金融类
+    '汽车金融', '车险', '融资租赁'
+  ].join(',')
 ).split(',')
 
 const SEARCH = 'https://sousuo.www.gov.cn/search-gov/data'
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36'
 
 const AUTO_TEXT = /汽车|新能源汽车|智能网联|充换电|动力电池|整车|乘用车|商用车|车辆/g
+// 产业口径：必须是汽车产业/消费/技术相关，而不是「汽车客运站」「春运」这类运营事务
+const INDUSTRY = /新能源汽车|智能网联|整车|汽车产业|汽车消费|汽车流通|二手车|报废机动车|报废更新|充电设施|充换电|换电站|加氢站|动力电池|汽车金融|汽车出口|以旧换新|汽车下乡|乘用车|商用车|车路云|自动驾驶|汽车租赁|客运班车定制/g
+const INDUSTRY_MIN = Number(option('industry-min', '3'))
+// 明确与汽车产业无关的事务类标题
+const TITLE_NOISE = /春运|假期|特种设备|电子信息|城市轨道|轨道交通|网络安全保险|计量监督|公路交通服务保障/
 // 非汽车领域：标题命中且汽车提及不足 10 次时丢弃（铁路、船舶、农业等）
 const DROP_TITLE = /铁路|民航|船舶|水运|港口|农业|林业|水利|旅游|邮政|房车营地/
 const DROP_TITLE_MIN_HITS = 10
@@ -204,6 +220,17 @@ async function main() {
       console.log(`  · 跳过（非汽车领域）${item.title.slice(0, 38)} 提及 ${hits}`)
       continue
     }
+    if (TITLE_NOISE.test(item.title)) {
+      console.log(`  · 跳过（事务类文件）${item.title.slice(0, 38)}`)
+      continue
+    }
+    // 产业口径：正文产业词数量必须达标，否则只是提到「汽车」而已
+    const industryHits = (content.match(INDUSTRY) || []).length + (INDUSTRY.test(item.title) ? 3 : 0)
+    INDUSTRY.lastIndex = 0
+    if (industryHits < INDUSTRY_MIN) {
+      console.log(`  · 跳过（产业词不足 ${industryHits}）${item.title.slice(0, 36)}`)
+      continue
+    }
     const direction = directionOf(content)
     records.push({
       id: idOf(item.url),
@@ -220,6 +247,7 @@ async function main() {
       nevSpecific: /新能源|电动|充电/.test(`${item.title}${content}`),
       direction,
       autoMentions: hits,
+      industryMentions: industryHits,
       summary: content.replace(/\s+/g, ' ').slice(0, 160),
       content,
       contentStatus: content.length > 300 ? 'full' : 'none',
