@@ -1486,6 +1486,31 @@ function BrandStrip(props) {
         return (analysis.layers.micro.clauseImpacts || []).slice(0, 12)
       }, [analysis])
 
+      // 同一政策的多个条款合并成一条：政策层面的利好不必逐条罗列
+      const clauseGroups = useMemo(() => {
+        const groups = new Map()
+        for (const clause of clauses) {
+          const key = clause.policyId
+          if (!groups.has(key)) {
+            groups.set(key, {
+              policyId: clause.policyId,
+              policyTitle: clause.policyTitle,
+              sourceUrl: clause.sourceUrl,
+              direction: clause.direction,
+              target: clause.target,
+              items: []
+            })
+          }
+          const group = groups.get(key)
+          group.items.push(clause)
+          // 有量化指标或方向明确的条款优先作为代表
+          const weight = (clause.magnitude || 0) * 2 + (clause.direction && clause.direction !== 'neutral' ? 1 : 0)
+          const currentBest = (group.best && group.best.weight) || -1
+          if (weight > currentBest) group.best = { weight, clause }
+        }
+        return [...groups.values()]
+      }, [clauses])
+
       const chain = useMemo(() => (analysis ? analysis.transmission || [] : []), [analysis])
 
       const goto = useCallback((delta) => {
@@ -1991,37 +2016,45 @@ function BrandStrip(props) {
                     clauses.length === 0
                       ? h('div', { className: 'ap-empty' }, '本期无条款级标注。')
                       : h('div', { className: 'ap-clauses', style: { maxHeight: 340, overflowY: 'auto', paddingRight: 4 } },
-                        clauses.map((clause) => {
-                          const tone = DIRECTION[clause.direction] || DIRECTION.neutral
-                          return h('div', { className: 'ap-clause', key: clause.policyId + '-' + clause.clauseNo },
+                        clauseGroups.map((group) => {
+                          const best = group.best ? group.best.clause : group.items[0]
+                          const tone = DIRECTION[best.direction] || DIRECTION.neutral
+                          const key = group.policyId
+                          const isOpen = openClause === key
+                          const merged = group.items.length > 1
+                            ? group.items.map((item, index) => (index + 1) + '. ' + item.clauseText).join('\n')
+                            : best.clauseText
+                          const preview = group.items.length > 1
+                            ? best.clauseText + '（本政策另有 ' + (group.items.length - 1) + ' 条同类条款）'
+                            : best.clauseText
+                          return h('div', { className: 'ap-clause', key },
                             h('span', { className: 'ap-tag', 'data-tone': tone.tone }, tone.label),
                             h('div', { style: { minWidth: 0 } },
                               h('button', {
-                              type: 'button', className: 'ap-clause-policy ap-link', title: clause.policyTitle,
-                              style: { border: 0, background: 'transparent', padding: 0, font: 'inherit' },
-                              onClick: () => openPolicy(clause.policyId)
-                            }, clause.policyTitle),
+                                type: 'button', className: 'ap-clause-policy ap-link', title: group.policyTitle,
+                                style: { border: 0, background: 'transparent', padding: 0, font: 'inherit' },
+                                onClick: () => openPolicy(group.policyId)
+                              }, group.policyTitle),
                               h('div', {
                                 className: 'ap-clause-text',
-                                'data-open': openClause === clause.policyId + clause.clauseNo ? 'true' : 'false',
-                                title: '点击展开/收起条款全文',
-                                onClick: () => setOpenClause((prev) =>
-                                  prev === clause.policyId + clause.clauseNo ? null : clause.policyId + clause.clauseNo)
-                              }, clause.clauseText),
+                                'data-open': isOpen ? 'true' : 'false',
+                                title: '点击展开/收起本政策的全部条款',
+                                onClick: () => setOpenClause((prev) => (prev === key ? null : key))
+                              }, isOpen ? merged : preview),
                               h('div', {
                                 style: { fontSize: 9.5, color: '#7fd7f5', marginTop: 3, lineHeight: 1.6 },
                                 title: '按条款原文措辞与作用对象生成的规则解读，不是模型推断'
                               },
                                 '解读：' +
-                                (tone.tone === 'up' ? '对「' + clause.target + '」形成正向支持'
-                                  : tone.tone === 'down' ? '对「' + clause.target + '」形成约束'
-                                    : '对「' + clause.target + '」的影响需结合实施口径判断') +
-                                (clause.magnitude >= 2 ? '；条款含明确量化指标，落地可追踪' : '；条款未量化，力度取决于后续执行') +
-                                '（第 ' + clause.paragraph + ' 段）')),
+                                (tone.tone === 'up' ? '对「' + group.target + '」形成正向支持'
+                                  : tone.tone === 'down' ? '对「' + group.target + '」形成约束'
+                                    : '对「' + group.target + '」的影响需结合实施口径判断') +
+                                (best.magnitude >= 2 ? '；条款含明确量化指标，落地可追踪' : '；条款未量化，力度取决于后续执行') +
+                                '（' + (group.items.length > 1 ? '合并 ' + group.items.length + ' 条，第 ' + group.items.map((item) => item.paragraph).join('、') + ' 段' : '第 ' + best.paragraph + ' 段') + '）')),
                             h('a', {
-                              className: 'ap-quote-link', href: clause.sourceUrl,
+                              className: 'ap-quote-link', href: group.sourceUrl,
                               target: '_blank', rel: 'noopener noreferrer',
-                              title: '第 ' + clause.paragraph + ' 段，打开官方原文'
+                              title: '打开官方原文'
                             }, '原文 ↗')
                           )
                         })

@@ -176,16 +176,39 @@ export function renderReport(analysis, extras = {}) {
   }
   const clauses = layers.micro.clauseImpacts ?? []
   if (clauses.length > 0) {
-    lines.push('### 条款级证据（自动定位，需结合全文复核）')
+    lines.push('### 条款级证据（按政策合并，自动定位）')
     lines.push('')
-    table(lines, ['政策', '原文位置', '条款摘录', '直接作用对象', '链接'], clauses.slice(0, 8).map((clause) => [
-      clause.policyTitle,
-      `第 ${clause.paragraph} 段`,
-      clause.quote,
-      clause.target,
-      `[查看原文](${clause.sourceUrl})`
-    ]))
-    lines.push('说明：条款摘录取自官方正文；“直接作用对象”是文本归类，不是量化影响评估。未标定弹性的内容不进入本报告。')
+    // 同一政策的多个条款合并为一行：政策层面的利好不在表里重复罗列
+    const grouped = new Map()
+    for (const clause of clauses) {
+      const key = clause.policyId
+      if (!grouped.has(key)) {
+        grouped.set(key, {
+          policyTitle: clause.policyTitle,
+          sourceUrl: clause.sourceUrl,
+          target: clause.target,
+          paragraphs: [],
+          quotes: [],
+          directions: new Set()
+        })
+      }
+      const group = grouped.get(key)
+      group.paragraphs.push(clause.paragraph)
+      group.quotes.push(clause.quote)
+      group.directions.add(clause.direction)
+    }
+    const rows = [...grouped.values()].slice(0, 8).map((group) => {
+      const direction = group.directions.has('positive')
+        ? '正向'
+        : group.directions.has('negative')
+          ? '约束'
+          : '中性'
+      const quote = group.quotes[0].length > 120 ? group.quotes[0].slice(0, 120) + '…' : group.quotes[0]
+      const extra = group.quotes.length > 1 ? `（本政策共 ${group.quotes.length} 条相关条款，见第 ${group.paragraphs.join('、')} 段）` : `（第 ${group.paragraphs[0]} 段）`
+      return [group.policyTitle, direction, quote + extra, group.target, `[查看原文](${group.sourceUrl})`]
+    })
+    table(lines, ['政策', '方向', '条款摘录', '直接作用对象', '链接'], rows)
+    lines.push('说明：同一政策的多个条款已合并为一行；“方向”按原文措辞判定，是文本归类而非量化影响评估。未标定弹性的内容不进入本报告。')
     lines.push('')
   } else if (counts.total > 0) {
     lines.push('本期政策正文未达到条款定位条件，未生成条款级影响表。')
