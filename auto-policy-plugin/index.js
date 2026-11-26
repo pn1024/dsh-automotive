@@ -381,6 +381,7 @@ function buildTools(ctx, config) {
         libraryOverview: buildLibraryOverview(lib),
         financials: lib.financials,
         linkage: overview.linkage,
+        recentPolicies: overview.recentPolicies,
         salesMonths: lib.monthly.length,
         sourceHealth: readSourceHealth()
       })
@@ -687,6 +688,7 @@ async function buildReportPayload(config, params) {
     libraryOverview: buildLibraryOverview(library),
     financials: library.financials,
     linkage: overview.linkage,
+    recentPolicies: overview.recentPolicies,
     salesMonths: library.monthly.length,
     sourceHealth: readSourceHealth()
   })

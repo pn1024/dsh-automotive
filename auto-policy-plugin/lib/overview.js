@@ -178,6 +178,7 @@ export function buildOverview(library, { month, region, brand } = {}) {
         issuer: policy.issuer ?? '',
         tools: policy.toolTypes ?? [],
         docNo: policy.docNo ?? '',
+        direction: policy.direction ?? '',
         sourceUrl: policy.sourceUrl
       }))
       .sort((a, b) => (a.publishDate < b.publishDate ? 1 : -1)),
@@ -186,6 +187,29 @@ export function buildOverview(library, { month, region, brand } = {}) {
       .sort()
       .reverse(),
     excludedInternational: library.meta.excludedInternational ?? 0,
+    // 近三个月政策（含标题不含汽车、但正文有汽车条款的利好文件），供报告与面板做滚动观察
+    recentPolicies: (() => {
+      const end = target
+      const start = shiftMonth(shiftMonth(target, -2), 0)
+      const startMonth = shiftMonth(target, -2)
+      return library.policies
+        .filter((policy) => {
+          const month = String(policy.publishDate ?? '').slice(0, 7)
+          return month >= startMonth && month <= end
+        })
+        .map((policy) => ({
+          id: policy.id,
+          title: policy.title,
+          publishDate: policy.publishDate,
+          month: String(policy.publishDate ?? '').slice(0, 7),
+          issuer: policy.issuer ?? '',
+          levelName: LEVEL_NAMES[policy.level] ?? '',
+          tools: policy.toolTypes ?? [],
+          direction: policy.direction ?? '',
+          sourceUrl: policy.sourceUrl
+        }))
+        .sort((a, b) => (a.publishDate < b.publishDate ? 1 : -1))
+    })(),
     modelMonthly: library.modelMonthly,
     financials: library.financials,
     linkage: buildPolicyFinanceLinkage(library, { quarters: 6 }),

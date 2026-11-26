@@ -125,6 +125,28 @@ export function renderReport(analysis, extras = {}) {
   }
   findings(lines, layers.macro.findings)
 
+  // 近三个月滚动清单：单月政策常只有一两条，拉长窗口才能看清政策取向
+  const recent = Array.isArray(extras.recentPolicies) ? extras.recentPolicies : []
+  const monthOnly = new Set(evidenceIndex.map((policy) => policy.id))
+  const extraRecent = recent.filter((policy) => !monthOnly.has(policy.id))
+  if (extraRecent.length > 0) {
+    lines.push('### 近三个月政策清单（含标题不含汽车、正文有汽车条款的文件）')
+    lines.push('')
+    table(
+      lines,
+      ['发布日', '层级', '方向', '政策', '原文'],
+      extraRecent.slice(0, 12).map((policy) => [
+        policy.publishDate,
+        policy.levelName || '—',
+        policy.direction === 'positive' ? '利好' : policy.direction === 'negative' ? '约束' : '—',
+        policy.title.length > 44 ? policy.title.slice(0, 44) + '…' : policy.title,
+        `[原文](${policy.sourceUrl})`
+      ])
+    )
+    lines.push(`本期之外的前两个月另有 ${extraRecent.length} 条政策，单月只有 ${evidenceIndex.length} 条；政策取向应看滚动窗口，不宜由单月条数判断。〔D-POLICY-RECENT-${month}〕`)
+    lines.push('')
+  }
+
   // 国际政策单独成表：来源与口径和美国国内政策不同，不能混在一张表里比较。
   const intlPolicies = evidenceIndex.filter((policy) => Number(policy.level) === 0)
   if (intlPolicies.length > 0) {

@@ -2105,6 +2105,11 @@ function BrandStrip(props) {
                         visible.map((policy) =>
                           h('div', { className: 'ap-clause', key: policy.id },
                             h('span', { className: 'ap-tag' }, policy.levelName),
+                              policy.direction === 'positive'
+                                ? h('span', { className: 'ap-tag', 'data-tone': 'up', title: '按正文措辞判定的方向' }, '利好')
+                                : policy.direction === 'negative'
+                                  ? h('span', { className: 'ap-tag', 'data-tone': 'down', title: '按正文措辞判定的方向' }, '约束')
+                                  : null,
                             h('div', { style: { minWidth: 0 } },
                               h('button', {
                                 type: 'button', className: 'ap-clause-policy ap-link', title: policy.title,

@@ -56,6 +56,7 @@ const markdown = renderReport(overview.analysis, {
   libraryOverview: buildLibraryOverview(library),
   financials: library.financials,
   linkage: overview.linkage,
+  recentPolicies: overview.recentPolicies,
   salesMonths: library.monthly.length,
   sourceHealth: []
 })
