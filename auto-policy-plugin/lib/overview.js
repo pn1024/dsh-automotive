@@ -1,5 +1,5 @@
 import { buildAnalysis } from './analyze.js?v=20261124g'
-import { levelMix, policyStrengthIndex, toolMix } from './indicators.js?v=20261124g'
+import { levelMix, policyStrengthIndex, primaryToolOf, toolMix } from './indicators.js?v=20261124g'
 import { buildPolicyFinanceLinkage } from './linkage.js?v=20261124g'
 import { buildSources } from './sources.js?v=20261124g'
 import { latestMonth, matchesRegion, policiesInWindow, shiftMonth } from './store.js?v=20261124g'
@@ -188,9 +188,19 @@ export function buildOverview(library, { month, region, brand } = {}) {
       .reverse(),
     excludedInternational: library.meta.excludedInternational ?? 0,
     // 近三个月政策（含标题不含汽车、但正文有汽车条款的利好文件），供报告与面板做滚动观察
+    recentWindow: (() => {
+      const startMonth = shiftMonth(target, -2)
+      return {
+        from: startMonth,
+        to: target,
+        policies: library.policies.filter((policy) => {
+          const month = String(policy.publishDate ?? '').slice(0, 7)
+          return month >= startMonth && month <= target && Number(policy.level) !== 0
+        })
+      }
+    })(),
     recentPolicies: (() => {
       const end = target
-      const start = shiftMonth(shiftMonth(target, -2), 0)
       const startMonth = shiftMonth(target, -2)
       return library.policies
         .filter((policy) => {
@@ -205,12 +215,20 @@ export function buildOverview(library, { month, region, brand } = {}) {
           issuer: policy.issuer ?? '',
           levelName: LEVEL_NAMES[policy.level] ?? '',
           tools: policy.toolTypes ?? [],
+          primaryTool: primaryToolOf(policy),
           direction: policy.direction ?? '',
           sourceUrl: policy.sourceUrl
         }))
         .sort((a, b) => (a.publishDate < b.publishDate ? 1 : -1))
     })(),
     modelMonthly: library.modelMonthly,
+    // 近三个月工具结构：单月可能只有一两条政策，用一个窗口才看得出结构
+    recentToolMix: toolMix(
+      library.policies.filter((policy) => {
+        const month = String(policy.publishDate ?? '').slice(0, 7)
+        return month >= shiftMonth(target, -2) && month <= target && Number(policy.level) !== 0
+      })
+    ),
     financials: library.financials,
     linkage: buildPolicyFinanceLinkage(library, { quarters: 6 }),
     sources: buildSources(library, { month: target, region, counts: analysis.counts, brand: activeBrand })

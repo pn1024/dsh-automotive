@@ -1462,7 +1462,10 @@ function BrandStrip(props) {
 
       const toolRows = useMemo(() => {
         if (!analysis) return []
-        return (analysis.counts.byTool || []).slice(0, 6).map((item) => ({
+        // 单月可能只有一两条政策，工具结构改看近三个月窗口；每个政策只归一个主工具，份额合计 100%
+        const recent = (data && data.recentToolMix) || []
+        const source = recent.length > 0 ? recent : analysis.counts.byTool || []
+        return source.slice(0, 6).map((item) => ({
           name: item.tool,
           value: item.count,
           onClick: () => openMetric('tool', item.tool),
@@ -1834,7 +1837,7 @@ function BrandStrip(props) {
                   h('div', { className: 'ap-card' },
                     h('div', { className: 'ap-card-head' },
                       h('button', { type: 'button', className: 'ap-card-title ap-link', onClick: () => openMetric('policies') }, '政策工具结构 ↗'),
-                      h('span', { className: 'ap-card-sub' }, '按条目计数'), h(SourceLink, { source: src.policies })
+                      h('span', { className: 'ap-card-sub' }, '近 3 个月 · 每政策只计一个主工具'), h(SourceLink, { source: src.policies })
                     ),
                     h(HBars, { rows: toolRows })
                   ),

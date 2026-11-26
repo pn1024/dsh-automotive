@@ -62,15 +62,35 @@ export function policyStrengthIndex(policies, { asOf, level } = {}) {
   }
 }
 
+/**
+ * 主工具优先级：一个政策只归一个工具，避免「一策多工具」让结构图虚高、合计超过 100%。
+ * 优先级按直接作用强度排：钱 > 税 > 更新补贴 > 基建 > 标准 > 路权 > 贸易 > 积分 > 规划。
+ */
+export const TOOL_PRIORITY = ['补贴', '税收', '以旧换新', '基建', '标准', '路权', '贸易', '双积分', '规划']
+
+/** 取一个政策的主工具（没有就归到「其他」）。 */
+export function primaryToolOf(policy) {
+  const tools = policy.toolTypes ?? []
+  for (const candidate of TOOL_PRIORITY) {
+    if (tools.includes(candidate)) return candidate
+  }
+  return tools[0] ?? '其他'
+}
+
+/**
+ * 按主工具计数：每个政策只计一次，share 合计为 100%。
+ * 另给 secondary 记录「一策多工具」的信息，供详情页展示，不参与结构图。
+ */
 export function toolMix(policies) {
   const counts = new Map()
   for (const policy of policies) {
-    for (const tool of policy.toolTypes ?? ['未分类']) counts.set(tool, (counts.get(tool) ?? 0) + 1)
+    const tool = primaryToolOf(policy)
+    counts.set(tool, (counts.get(tool) ?? 0) + 1)
   }
   const total = policies.length || 1
   return [...counts.entries()]
     .map(([tool, count]) => ({ tool, count, share: Math.round((count / total) * 1000) / 10 }))
-    .sort((a, b) => b.count - a.count)
+    .sort((a, b) => b.count - a.count || TOOL_PRIORITY.indexOf(a.tool) - TOOL_PRIORITY.indexOf(b.tool))
 }
 
 export function levelMix(policies) {

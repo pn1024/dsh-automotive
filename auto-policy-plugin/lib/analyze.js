@@ -60,7 +60,7 @@ export function buildAnalysis(library, options = {}) {
     if (topTools.length > 0) {
       macro.push({
         id: 'M2',
-        text: `政策工具结构以 ${topTools.map((item) => `${item.tool}（${item.count} 条）`).join('、')} 为主；一策多工具时分别计入，因此工具占比不加总为 100%。`,
+        text: `政策工具结构以 ${topTools.map((item) => `${item.tool}（${item.count} 条）`).join('、')} 为主；每个政策只归入一个主工具，因此各工具份额合计为 100%。`,
         evidence: inMonth.map((policy) => policy.id),
         confidence: 'high'
       })
