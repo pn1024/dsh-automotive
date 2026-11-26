@@ -1825,6 +1825,63 @@ function BrandStrip(props) {
                 h(MarketCard, { market: data.market, source: src.market }),
 
                 (() => {
+                  const layers = analysis && analysis.layers ? analysis.layers : null
+                  if (!layers) return null
+                  const groups = [
+                    { key: 'macro', label: '宏观', sub: '全国政策供给', rows: (layers.macro && layers.macro.findings) || [] },
+                    { key: 'meso', label: '中观', sub: '市场与区域结构', rows: (layers.meso && layers.meso.findings) || [] },
+                    { key: 'micro', label: '微观', sub: '企业与条款证据', rows: (layers.micro && layers.micro.findings) || [] }
+                  ]
+                  const total = groups.reduce((sum, group) => sum + group.rows.length, 0)
+                  if (total === 0) return null
+
+                  const renderRow = (row) =>
+                    h('div', { key: row.id, style: { fontSize: 10.5, color: '#9db4d6', lineHeight: 1.65 } },
+                      h('span', { style: { color: '#67e8f9', marginRight: 4 } }, row.id + ' '),
+                      row.text,
+                      h('div', { style: { display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 3 } },
+                        (row.evidence || []).slice(0, 4).map((evidence) =>
+                          String(evidence).startsWith('P-')
+                            ? h('button', {
+                              key: evidence, type: 'button', className: 'ap-tag ap-mono',
+                              style: { border: 0, cursor: 'pointer' }, title: '打开该政策',
+                              onClick: () => openPolicy(evidence)
+                            }, evidence.replace('P-', ''))
+                            : h('span', { key: evidence, className: 'ap-tag ap-mono', title: '数据证据' }, evidence.replace('D-', ''))),
+                        h('span', {
+                          className: 'ap-tag',
+                          'data-tone': row.confidence === 'high' ? 'up' : row.confidence === 'low' ? 'down' : undefined
+                        }, row.confidence === 'high' ? '高置信' : row.confidence === 'low' ? '低置信' : '中置信')))
+
+                  const renderGroup = (group) =>
+                    h('div', {
+                      key: group.key,
+                      style: {
+                        minWidth: 0, background: 'rgba(96,165,250,.05)',
+                        border: '1px solid rgba(120,180,255,.12)', borderRadius: 8, padding: '8px 9px'
+                      }
+                    },
+                      h('div', { style: { display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 3 } },
+                        h('span', { style: { fontSize: 12, fontWeight: 700, color: '#eaf6ff' } }, group.label),
+                        h('span', { style: { fontSize: 9.5, color: '#6f88ab' } }, group.sub),
+                        h('span', { className: 'ap-tag ap-mono', style: { marginLeft: 'auto' } }, group.rows.length + ' 条')),
+                      group.rows.length === 0
+                        ? h('div', { style: { fontSize: 10.5, color: '#5d7593' } }, '本期无结论')
+                        : h('div', { style: { display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 240, overflowY: 'auto', paddingRight: 2 } },
+                          group.rows.map(renderRow)))
+
+                  return h('div', { className: 'ap-card' },
+                    h('div', { className: 'ap-card-head' },
+                      h('span', { className: 'ap-card-title' }, '三层分析 · 宏观 / 中观 / 微观'),
+                      h('span', { className: 'ap-card-sub' }, total + ' 条结论 · 每条可追溯到证据')),
+                    h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10 } },
+                      groups.map(renderGroup)),
+                    h('div', { style: { fontSize: 9.5, color: '#6f88ab', marginTop: 6, lineHeight: 1.6 } },
+                      '宏观看政策供给，中观看市场与区域结构，微观看企业与条款。点证据编号可穿透到原文或数据来源；结论由规则引擎生成，不含模型推断。')
+                  )
+                })(),
+
+                (() => {
                   const financials = data.financials || {}
                   const list = Object.values(financials).filter((company) => (company.periods || []).length > 0)
                   if (list.length === 0) return null

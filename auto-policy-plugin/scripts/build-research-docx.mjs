@@ -1,18 +1,21 @@
 /**
- * 生成 Word 版研究报告（调用 build_research_docx.py）
+ * 生成 Word 版报告（Markdown → DOCX 单一来源）
  *
  *   node scripts/build-research-docx.mjs                 # 用最近有政策的月份
  *   node scripts/build-research-docx.mjs --month=2026-09
+ *   node scripts/build-research-docx.mjs --brand=奇瑞
  *
- * Python 解释器优先用 DSH 运行时的内置 Python，找不到再退回 PATH 上的 python。
- * 生成结果写到 data/reports/policy-research-YYYY-MM.docx，面板通过 /report.docx 下载。
+ * 与旧版的关键区别：
+ *   正文只由 lib/report.js 生成一份 Markdown，Word 只是它的排版结果。
+ *   这样 Markdown 报告与 Word 报告的章节、数据、结论完全一致（都含宏观/中观/微观三层）。
  */
 import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { buildPolicyFinanceLinkage } from '../lib/linkage.js'
+import { buildLibraryOverview, buildOverview } from '../lib/overview.js'
+import { lintReport, renderReport } from '../lib/report.js'
 import { loadLibrary } from '../lib/store.js'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
@@ -43,25 +46,26 @@ function resolvePython() {
   return null
 }
 
-function latestPolicyMonth() {
-  const file = path.join(DATA_DIR, 'policies.json')
-  if (!fs.existsSync(file)) return ''
-  const doc = JSON.parse(fs.readFileSync(file, 'utf8'))
-  const months = [
-    ...new Set(
-      (doc.policies ?? [])
-        .filter((item) => Number(item.level) !== 0 && /^\d{4}-\d{2}/.test(String(item.publishDate ?? '')))
-        .map((item) => String(item.publishDate).slice(0, 7))
-    )
-  ].sort()
-  return months.length > 0 ? months[months.length - 1] : ''
-}
+const library = loadLibrary(DATA_DIR)
+const brand = option('brand', '奇瑞')
+const month = option('month', '') || ''
+const overview = buildOverview(library, { month: month || undefined, brand })
 
-const month = option('month', '') || latestPolicyMonth()
-if (!month) {
-  console.error('没有可用的月份，无法生成报告')
-  process.exit(1)
-}
+const markdown = renderReport(overview.analysis, {
+  regionStats: overview.regionStats,
+  libraryOverview: buildLibraryOverview(library),
+  financials: library.financials,
+  linkage: overview.linkage,
+  salesMonths: library.monthly.length,
+  sourceHealth: []
+})
+const lint = lintReport(markdown)
+
+const outDir = path.join(DATA_DIR, 'reports')
+fs.mkdirSync(outDir, { recursive: true })
+const mdPath = path.join(outDir, `policy-research-${overview.month}.md`)
+const outPath = path.join(outDir, `policy-research-${overview.month}.docx`)
+fs.writeFileSync(mdPath, markdown, 'utf8')
 
 const python = resolvePython()
 if (!python) {
@@ -69,29 +73,16 @@ if (!python) {
   process.exit(1)
 }
 
-const outDir = path.join(DATA_DIR, 'reports')
-fs.mkdirSync(outDir, { recursive: true })
-const outPath = path.join(outDir, `policy-research-${month}.docx`)
-
-// 先把「政策-财报季度对照」用 lib 算好落盘，Python 侧只读不算，避免 PSI 出现两套实现
-try {
-  const library = loadLibrary(DATA_DIR)
-  const rows = buildPolicyFinanceLinkage(library, { quarters: 6 })
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'linkage.json'),
-    JSON.stringify({ updatedAt: new Date().toISOString(), note: '由 lib/linkage.js 计算，供 Word 报告读取', rows }, null, 2) + '\n',
-    'utf8'
-  )
-  console.log(`联动表 ${rows.length} 个季度已写入 data/linkage.json`)
-} catch (error) {
-  console.log('联动表计算失败（Word 中该表将留空）：', error.message)
-}
-
 execFileSync(
   python,
-  [path.join(HERE, 'build_research_docx.py'), '--out', outPath, '--month', month],
+  [path.join(HERE, 'md_to_docx.py'), '--md', mdPath, '--out', outPath],
   { stdio: 'inherit', env: { ...process.env, PYTHONIOENCODING: 'utf-8' }, timeout: 180000 }
 )
 
 const stat = fs.statSync(outPath)
-console.log(`Word 报告已生成：${path.relative(process.cwd(), outPath)}（${(stat.size / 1024).toFixed(0)}KB，月份 ${month}）`)
+const sections = (markdown.match(/^## /gm) || []).length
+console.log(`\n月份 ${overview.month}｜品牌 ${brand}`)
+console.log(`Markdown：${path.relative(process.cwd(), mdPath)}（${lint.words} 字）`)
+console.log(`Word    ：${path.relative(process.cwd(), outPath)}（${(stat.size / 1024).toFixed(0)} KB）`)
+console.log(`章节 ${sections} 个｜引用覆盖率 ${lint.citationCoverage}%｜质检 ${lint.ok ? '通过' : '未通过：' + lint.errors.join('；')}`)
+console.log('两者内容一致（Word 由同一份 Markdown 渲染）')

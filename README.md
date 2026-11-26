@@ -24,7 +24,10 @@ pnpm add dsh-plugin-automotive
 - **奇瑞专项**：官网公告口径的集团销量、出口、新能源、分品牌明细（21 个月）
 - **上市公司**：行情（东方财富）+ 季度财报 + 业绩预告 + 机构评级 + 一致预期与目标价 + 季报 PDF（巨潮资讯）
 - **政策-财报联动**：政策按季度聚合，与 A 股 5 家整车企业季度财务同向对照
-- **报告**：Markdown 报告（带质检：章节完整性、引用覆盖率、模糊表述、篇幅）+ 公文格式 Word 研究报告（GB/T 9704 版式）
+- **报告**：Markdown 报告（带质检：章节完整性、引用覆盖率、模糊表述、篇幅）+ 公文格式 Word 研究报告（GB/T 9704 版式）。
+  **Word 由同一份 Markdown 渲染**，两者章节、数据、结论完全一致，不再各写一套。
+- **三层分析**：宏观（政策供给）/ 中观（市场与区域结构）/ 微观（企业与条款证据），
+  面板有三列卡片、报告有三章，每条结论都挂证据编号，可穿透到原文或数据来源
 - **数据留痕**：每次写盘前自动快照到 `data/archive/`，可一键回滚
 
 ## 数据源
@@ -96,6 +99,7 @@ node scripts/ingest-hunan.mjs --pages=3              # 湖南省政府门户
 node scripts/ingest-gxt.mjs --pages=7                # 省工信厅（PowerShell 通道）
 node scripts/ingest-fgw.mjs --pages=25               # 省发改委（PowerShell 通道）
 node scripts/ingest-flk.mjs                          # 国家法律法规数据库
+node scripts/ingest-plans.mjs --pages=4              # 「十五五」专项规划中的汽车条款
 
 # 市场数据
 node scripts/sales-dongchedi.mjs --months=10         # 懂车帝销量
