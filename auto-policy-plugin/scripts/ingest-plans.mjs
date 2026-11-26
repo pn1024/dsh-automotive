@@ -39,6 +39,9 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/
 const AUTO_TEXT = /汽车|新能源汽车|智能网联|充换电|动力电池|整车|乘用车|商用车/g
 // 批次公告不是政策，排除
 const EXCLUDE_TITLE = /道路机动车辆生产企业及产品|享受车船税减免优惠的节约能源/
+// 与汽车无关的领域：标题命中且汽车提及不足 10 次时丢弃，避免铁路、农业类规划混入
+const DROP_TITLE = /铁路|民航|船舶|水运|港口|农业|林业|水利|旅游|邮政/
+const DROP_TITLE_MIN_HITS = 10
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const strip = (value) =>
@@ -165,6 +168,11 @@ async function main() {
     }
     const hits = autoHits(content) + autoHits(item.title) * 2
     if (hits < 2) continue
+    // 铁路、农业等领域的规划通常只有顺带提及，提及不足 10 次时不入库
+    if (DROP_TITLE.test(item.title) && hits < DROP_TITLE_MIN_HITS) {
+      console.log(`  · 跳过（非汽车领域）${item.title.slice(0, 40)} 提及 ${hits}`)
+      continue
+    }
     const record = {
       id: idOf(item.url),
       title: item.title,
