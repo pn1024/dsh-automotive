@@ -10,6 +10,16 @@ DSH 插件的上架链路是：**先发布到 npm → 再向 `awesome-dsh-plugin
 >
 > 注意：npm 禁止绕过 2FA 的 granular token 执行 unpublish，因此首个占位版本 `0.0.0-stage` 会保留在版本列表里，不影响安装。
 
+## 提交记录
+
+| 时间 | 事件 |
+|---|---|
+| 2026-11-24 | npm 发布 dsh-plugin-automotive@1.0.0 |
+| 2026-11-26 | 提交市场 PR [#18911](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/18911) |
+| 2026-11-26 | CI 两项检查（Submission gate / check）全部通过，mergeable_state: clean |
+
+等待维护者合并，合并后约一天内出现在 DSH 插件市场。
+
 ## 0. 打包（已完成，可重复执行）
 
 ```powershell

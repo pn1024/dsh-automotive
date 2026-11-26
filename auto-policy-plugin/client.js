@@ -1,5 +1,5 @@
 /**
- * 汽车政策研究台 —— 浏览器半边（科技风控制台）
+ * 汽车产业研究台 —— 浏览器半边（科技风控制台）
  *
  * 入口：sidebar.footer.action（左侧栏底部，设置旁边）
  * 面板：shell.overlay —— 该层本身是点击穿透的，只有卡片本体接管指针事件，
@@ -9,7 +9,7 @@
  *       Host 半边用与报告相同的引擎现算，行情另走东方财富公开接口并带 10 分钟缓存。
  */
 window.__ModuleLoader__.load({
-  id: 'dsh-plugin-auto-industry',
+  id: 'dsh-plugin-automotive',
   factory(require) {
     const React = require('react')
     const h = React.createElement
@@ -2110,7 +2110,7 @@ function BrandStrip(props) {
       ctx.effect(function () {
         return ctx.slots.inject('sidebar.footer.action', function () {
           return ctx.slots.register(
-            { name: 'sidebar.footer.action', id: 'auto-policy', order: 20, label: '汽车政策研究台' },
+            { name: 'sidebar.footer.action', id: 'auto-policy', order: 20, label: '汽车产业研究台' },
             SidebarEntry
           )
         })
@@ -2119,7 +2119,7 @@ function BrandStrip(props) {
       ctx.effect(function () {
         return ctx.slots.inject('shell.overlay', function () {
           return ctx.slots.register(
-            { name: 'shell.overlay', id: 'auto-policy-panel', order: 40, label: '汽车政策研究台' },
+            { name: 'shell.overlay', id: 'auto-policy-panel', order: 40, label: '汽车产业研究台' },
             GuardedPanel
           )
         })
